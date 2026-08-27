@@ -24,7 +24,7 @@ The package vends three products:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-foundations/swift-environment-dependencies.git", branch: "main")
+    .package(url: "https://github.com/swift-compositions/swift-environment-dependencies.git", branch: "main")
 ]
 ```
 

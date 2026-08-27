@@ -1,6 +1,6 @@
 description: Foundation-free EnvVars dependencies with an opt-in Foundation integration and compatibility facade.
 topics:
-  - foundations
+  - compositions
   - dependencies
   - environment
 readme:
