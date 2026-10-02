@@ -1,5 +1,4 @@
 import Environment_Dependencies
-import Foundation
 import Testing
 
 extension EnvVars {
@@ -21,10 +20,10 @@ extension EnvVars.Test.Unit {
         ])
 
         #expect(try envVars.port() == 8080)
-        #expect(try envVars.baseUrl().absoluteString == "https://example.com")
+        #expect(URLs.string(try envVars.baseUrl()) == "https://example.com")
         #expect(envVars.allowedInsecureHosts == ["localhost", "127.0.0.1"])
 
-        envVars.setBaseUrl(try #require(URL(string: "https://swift.org")))
+        envVars.setBaseUrl(try #require(URLs.url("https://swift.org")))
         #expect(envVars["BASE_URL"] == "https://swift.org")
     }
 }
@@ -44,7 +43,7 @@ extension EnvVars.Test.Integration {
 
     @Test
     func `legacy import preserves project root call shape`() {
-        let root = URL(fileURLWithPath: "/tmp/project")
+        let root = URLs.file("/tmp/project")
         let configuration = EnvVars.EnvironmentConfiguration.projectRoot(
             root,
             environment: "testing"

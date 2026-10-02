@@ -1,5 +1,4 @@
 import Dependencies_Test_Support
-import Foundation
 import Testing
 
 @testable import Environment_Dependencies_Foundation_Integration
@@ -17,9 +16,9 @@ extension EnvVars.Test.Unit {
     @Test
     func `URL accessors round trip`() throws {
         var envVars = EnvVars(["BASE_URL": "https://example.com"])
-        #expect(try envVars.baseUrl().absoluteString == "https://example.com")
+        #expect(URLs.string(try envVars.baseUrl()) == "https://example.com")
 
-        envVars.setBaseUrl(try #require(URL(string: "https://swift.org")))
+        envVars.setBaseUrl(try #require(URLs.url("https://swift.org")))
         #expect(envVars["BASE_URL"] == "https://swift.org")
     }
 
@@ -58,11 +57,8 @@ extension EnvVars.Test.`Edge Case` {
 extension EnvVars.Test.Integration {
     @Test
     func `dotenv URL overlay wins over process environment`() throws {
-        let packageRoot = URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-        let file = packageRoot.appendingPathComponent(".env.example")
+        let file = try URLs.envExample()
+        defer { URLs.remove(file) }
 
         let direct = try EnvVars.live(localEnvFile: file)
         let configured = try EnvVars.live(environmentConfiguration: .localEnvFile(file))
@@ -73,7 +69,7 @@ extension EnvVars.Test.Integration {
 
     @Test
     func `project root dependency key accepts Foundation URL`() {
-        let root = URL(fileURLWithPath: "/tmp/project")
+        let root = URLs.file("/tmp/project")
         withDependencies {
             $0.projectRoot = root
         } operation: {
