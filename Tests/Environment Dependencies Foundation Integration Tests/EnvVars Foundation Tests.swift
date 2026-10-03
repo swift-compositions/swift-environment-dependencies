@@ -37,7 +37,7 @@ extension EnvVars.Test.Unit {
 extension EnvVars.Test.`Edge Case` {
     @Test
     func `invalid URL throws`() {
-        let envVars = EnvVars(["BASE_URL": ":// invalid"])
+        let envVars = EnvVars(["BASE_URL": "http://[::1"])
         #expect(throws: EnvVarsError.self) {
             try envVars.baseUrl()
         }
