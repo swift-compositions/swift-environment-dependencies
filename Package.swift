@@ -46,7 +46,7 @@ let package = Package(
         .target(
             name: "Environment Dependencies Foundation Integration",
             dependencies: [
-                "Environment Dependencies Core",
+                .target(name: "Environment Dependencies Core"),
                 .product(name: "Environment", package: "swift-environment"),
                 .product(name: "Dependencies", package: "swift-dependencies"),
             ]
@@ -54,44 +54,41 @@ let package = Package(
         .target(
             name: "Environment Dependencies",
             dependencies: [
-                "Environment Dependencies Core",
-                "Environment Dependencies Foundation Integration",
+                .target(name: "Environment Dependencies Core"),
+                .target(name: "Environment Dependencies Foundation Integration"),
             ]
         ),
         .testTarget(
             name: "Environment Dependencies Core Tests",
             dependencies: [
-                "Environment Dependencies Core",
+                .target(name: "Environment Dependencies Core"),
                 .product(name: "Dependencies Test Support", package: "swift-dependencies"),
             ]
         ),
         .testTarget(
             name: "Environment Dependencies Foundation Integration Tests",
             dependencies: [
-                "Environment Dependencies Foundation Integration",
+                .target(name: "Environment Dependencies Foundation Integration"),
                 .product(name: "Dependencies Test Support", package: "swift-dependencies"),
             ]
         ),
         .testTarget(
             name: "Environment Dependencies Compatibility Tests",
-            dependencies: ["Environment Dependencies"]
+            dependencies: [.target(name: "Environment Dependencies")]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+    target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
         .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableExperimentalFeature("Lifetimes"),
+        .treatAllWarnings(as: .error),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }

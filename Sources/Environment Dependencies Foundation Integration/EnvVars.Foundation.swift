@@ -20,7 +20,7 @@ extension EnvVars {
         self["BASE_URL"] = url.absoluteString
     }
 
-    public var allowedInsecureHosts: [Swift.String]? {
+    public var allowedInsecureHosts: [Swift::String]? {
         get {
             self["ALLOWED_INSECURE_HOSTS"]?.components(separatedBy: ",").map {
                 $0.trimmingCharacters(in: .whitespaces)

@@ -14,8 +14,8 @@ extension EnvVars {
                 data = nil
             }
             if let data {
-                let text = Swift.String(decoding: data, as: Swift.UTF8.self)
-                let fileValues: [Swift.String: Swift.String]?
+                let text = Swift::String(decoding: data, as: Swift::UTF8.self)
+                let fileValues: [Swift::String: Swift::String]?
                 do throws(Environment.Dotenv.Error) {
                     fileValues = try Environment.Dotenv(parsing: text).values
                 } catch {

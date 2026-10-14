@@ -1,6 +1,6 @@
 public import Logging
 
-public enum EnvVarsError: Swift.Error, CustomStringConvertible {
+public enum EnvVarsError: Swift::Error, CustomStringConvertible {
     case missingVariable(String)
     case invalidFormat(variable: String, expectedType: String, value: String)
 }

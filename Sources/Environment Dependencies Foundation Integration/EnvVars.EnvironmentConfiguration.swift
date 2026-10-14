@@ -6,7 +6,7 @@ extension EnvVars {
 
     public enum EnvironmentConfiguration: Sendable {
 
-        case projectRoot(Foundation.URL, environment: Swift.String?)
+        case projectRoot(Foundation.URL, environment: Swift::String?)
 
         case localEnvFile(Foundation.URL)
     }
@@ -14,7 +14,7 @@ extension EnvVars {
 
 extension EnvVars.EnvironmentConfiguration {
 
-    func load() -> [Swift.String: Swift.String]? {
+    func load() -> [Swift::String: Swift::String]? {
         let url: Foundation.URL?
         switch self {
         case .localEnvFile(let file):
@@ -34,7 +34,7 @@ extension EnvVars.EnvironmentConfiguration {
         } catch {
             return nil
         }
-        let text = Swift.String(decoding: data, as: Swift.UTF8.self)
+        let text = Swift::String(decoding: data, as: Swift::UTF8.self)
         do throws(Environment.Dotenv.Error) {
             return try Environment.Dotenv(parsing: text).values
         } catch {
